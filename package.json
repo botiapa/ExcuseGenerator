@@ -1,0 +1,25 @@
+{
+  "name": "excusegenerator",
+  "version": "1.0.0",
+  "description": "A simple web application for generating excuses.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/botiapa/ExcuseGenerator.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/botiapa/ExcuseGenerator/issues"
+  },
+  "homepage": "https://github.com/botiapa/ExcuseGenerator#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.2",
+    "pg": "^7.14.0"
+  }
+}
