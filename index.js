@@ -8,6 +8,7 @@ await db.init();
 
 const app = express()
 .use(express.json())
+.use(express.static('static'))
 .use(express.urlencoded({ extended: true }));
 
 

@@ -1,5 +1,5 @@
 module.exports = async function(app, db) {
-    app.get("/", (req, res) => {
+    app.get("/getexcuse", (req, res) => {
         db.query("SELECT * FROM excuses_en ORDER BY RANDOM() LIMIT 1", function(dberr, dbres)
         {
             if(!dberr) 
@@ -13,7 +13,7 @@ module.exports = async function(app, db) {
             }
         });
     });
-    app.get("/hu", (req, res) => {
+    app.get("/getexcuse_hu", (req, res) => {
         db.query("SELECT * FROM excuses_hu ORDER BY RANDOM() LIMIT 1", function(dberr, dbres)
         {
             if(!dberr) 
