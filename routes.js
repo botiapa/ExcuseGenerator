@@ -27,7 +27,16 @@ module.exports = async function(app, db) {
             }
         });
     });
-    app.get("change_language", (req, res) => {
-        console.log(req.body.lang);
-    })
+    app.get("/change_language", (req, res) => {
+        const lang = req.query.lang;
+        if(lang && (lang == 0 || lang == 1)) 
+        {
+            res.cookie('lang', lang).sendStatus(200);
+        }
+        else 
+        {
+            res.sendStatus(500);
+        }
+        res.sendStatus(200);
+    });
 }

@@ -81,14 +81,34 @@
         .button:active {
             background-color: #5591ff;
         }
+        
+        .language-chooser-button 
+        {
+            background-color: transparent;
+            border: none;
+            font-size: larger;
+            cursor: pointer;
+            display: none;
+        }
+        .language-chooser-button:hover 
+        {
+            background-color: #222222;
+        }
     </style>
     <script src="client.js"></script>
 </head>
 
-<body>
+<body onload="onLoad();">
     <header>
 
     </header>
+
+    <!-- Language Changer Buttons -->
+    <div>
+        <button onclick="changeLanguage(1);" id="btn_lang_en" class="language-chooser-button">🇬🇧</button>
+        <button onclick="changeLanguage(0);" id="btn_lang_hu" class="language-chooser-button">🇭🇺</button>
+    </div>
+
     <!-- 'generate' button -->
     <button class="button" onclick="generate()">Generate excuse</button>
 
