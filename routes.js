@@ -27,4 +27,7 @@ module.exports = async function(app, db) {
             }
         });
     });
+    app.get("change_language", (req, res) => {
+        console.log(req.body.lang);
+    })
 }
