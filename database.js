@@ -1,11 +1,11 @@
 const fs = require('fs');
 const { Pool, Client } = require('pg');
+const path = require('path')
 
 module.exports = {
     Pool : null,
     init : async function()
 	{
-		path = require('path'),
 		filePath = path.join(__dirname, 'auth.key');
 
 		var SERVER;
@@ -33,7 +33,7 @@ module.exports = {
 			  max: 15 // Maximum number of clients to create. Only 20 clients are allowed on heroku, so to avoid crashes I set it a lower value just to be safe.
 			})
 		}
-		else if(process.env.USE_ENV != null && process.env.USE_ENV == "true")
+		else if(process.env.USE_ENV && process.env.USE_ENV == "true")
 		{
 			console.log("Using connection url for config");
 			this.pool = new Pool({

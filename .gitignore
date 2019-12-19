@@ -1,4 +1,4 @@
-auth.key
+*.key
 
 # Logs
 logs
