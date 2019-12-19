@@ -77,7 +77,8 @@ body {
     cursor: pointer;
     display: none;
     padding: 0;
-    margin: 5px;
+    margin-left: 15px;
+    margin-top: 8px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
