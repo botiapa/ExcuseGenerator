@@ -5,16 +5,19 @@ const crypto = require('crypto');
 
 let CLIENT_ID = null;
 let CLIENT_SECRET = null;
+let REDIRECT_URI = null;
 
 if(process.env.USE_ENV && process.env.USE_ENV == "true") {
     CLIENT_ID = process.env.CLIENT_ID;
     CLIENT_SECRET = process.env.CLIENT_SECRET;
+    REDIRECT_URI = process.env.REDIRECT_URI;
 }
 else if(!process.env.USE_ENV) {
     filePath = path.join(__dirname, 'oauth.key');
     split = fs.readFileSync(filePath, {encoding: "utf8"}).split(";");
     CLIENT_ID = split[0];
     CLIENT_SECRET = split[1];
+    REDIRECT_URI = "http://localhost:8080/redirect";
 }
 
 
@@ -41,7 +44,7 @@ module.exports = async function(app, db) {
         + "code=" + req.query.code + "&"
         + "client_id=" + CLIENT_ID + "&"
         + "client_secret=" + CLIENT_SECRET + "&"
-        + "redirect_uri=" + "http://localhost:8080/redirect" + "&"
+        + "redirect_uri=" + REDIRECT_URI + "&"
         + "grant_type=" + "authorization_code";
         axios({
             method: 'POST',
@@ -113,7 +116,7 @@ module.exports = async function(app, db) {
         const requestToken = req.query.code;
         let url = "https://accounts.google.com/o/oauth2/v2/auth?"
         + "client_id=" + CLIENT_ID + "&"
-        + "redirect_uri=" + "http://localhost:8080/redirect" + "&"
+        + "redirect_uri=" + REDIRECT_URI + "&"
         + "scope=" + "https://www.googleapis.com/auth/userinfo.profile email openid" + "&"
         + "access_type=" + "offline" + "&"
         + "response_type=" + "code";
