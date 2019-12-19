@@ -139,11 +139,15 @@ body {
 }
 
 .username-input {
-    height: 34px;
+    padding: none;
+    height: 2rem!important;
     width: 320px;
     border:none;
     border-radius: 3px;
     font-size: medium;
+    color: white;
+    vertical-align: text-bottom;
+    line-height: normal;
 }
 
 .popup-text {
