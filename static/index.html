@@ -3,128 +3,61 @@
 
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="google-signin-client_id" content="16217129855-25agroinon5odmkke0sj25r5eve924f0.apps.googleusercontent.com ">
     <link rel="icon" href="../favicon.ico" type="image/x-icon" />
-    <style>
-        @font-face {
-            font-family: opensans;
-            src: url('../Resources/OpenSans-Regular.ttf');
-        }
-        
-        body {
-            background-color: #222222;
-        }
-        
-        .social {
-            touch-action: manipulation;
-            /* Disable text selection: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
-            -webkit-touch-callout: none;
-            /* iOS Safari */
-            -webkit-user-select: none;
-            /* Safari */
-            -moz-user-select: none;
-            /* Old versions of Firefox */
-            -ms-user-select: none;
-            /* Internet Explorer/Edge */
-            user-select: none;
-            /* Chrome, Opera and Firefox */
-        }
-        
-        .prompt {
-            font-family: opensans;
-            color: white;
-            text-align: center;
-            font-size: 25px;
-            position: fixed;
-            width: 90%;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            /*outline: 2px solid #555555;*/
-        }
-        
-        .button {
-            background-color: #4CAFFF;
-            font-family: opensans;
-            text-align: center;
-            font-size: 25px;
-            padding: 10px 0px;
-            color: white;
-            outline-style: none;
-            border: none;
-            cursor: pointer;
-            position: fixed;
-            width: 50%;
-            bottom: 10%;
-            left: 25%;
-            /* Disable text selection: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
-            -webkit-touch-callout: none;
-            /* iOS Safari */
-            -webkit-user-select: none;
-            /* Safari */
-            -moz-user-select: none;
-            /* Old versions of Firefox */
-            -ms-user-select: none;
-            /* Internet Explorer/Edge */
-            user-select: none;
-            /* Chrome, Opera and Firefox */
-            /* 
-	Prevent double-tapping on button from zooming page on mobile
-	https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action
-	*/
-            touch-action: manipulation;
-        }
-        
-        .button:hover {
-            background-color: #5dc2f5;
-        }
-        
-        .button:active {
-            background-color: #5591ff;
-        }
-        
-        .language-chooser-button 
-        {
-            background-color: transparent;
-            border: none;
-            font-size: larger;
-            cursor: pointer;
-            display: none;
-        }
-        .language-chooser-button:hover 
-        {
-            background-color: #222222;
-        }
-
-        .user {
-            font-size: medium;
-            font-family: opensans;
-            position: absolute;
-            right: 10px;
-            color: white;
-        }
-    </style>
+    <link href="style.css" rel="stylesheet" type="text/css">
     <script src="client.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
 </head>
 
-<body onload="onLoad();">
-
-    <div class="user">
-        hi botiapa
+<body onload="onLoad();" onclick="onBodyClick()">
+    <div id="signInButton" class="hoverable s12 m6 offset-m3" style="display: none;">
+        <a class="oauth-container darken-4 black-text" href="/oauth" style="text-transform:none">
+            <div class="left">
+                <img width="20px" style="margin-top:7px; margin-right:8px" alt="Google sign-in" 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+            </div>
+            Login with Google
+        </a>
     </div>
 
-    <!-- Language Changer Buttons -->
+    <!-- Popup Window -->
+    <div style="display: none;" id="register-popup" class="popup">
+        <div class="popup-text">Please enter a username to complete the registration</div>
+        <input id="username_input" class="username-input"/>
+        <button class="submit-button" onclick="register();">Submit</button>
+    </div>
+
+    <div style="display: none;padding: 20px;" id="profile-popup" class="popup">
+        <img class="avatar big-profile-avatar" src="https://lh5.googleusercontent.com/-J1_IZXtW81I/AAAAAAAAAAI/AAAAAAAAAAA/HHpKY8lrioE/W96-H96/photo.jpg"/>
+        <div style="flex: 50%;margin-left: 10px;">
+            <div style="font-weight: bold;" id="username"></div>
+            <div style="color: lightgray; font-size: smaller;" id="email"></div>
+            <button id="logout-button" class="logout-button" onclick="onLogoutClick();">Logout</button>
+        </div>
+        
+    </div>
+
+    <!-- Actual Content -->
     <div>
-        <button onclick="changeLanguage(1);" id="btn_lang_en" class="language-chooser-button">🇬🇧</button>
-        <button onclick="changeLanguage(0);" id="btn_lang_hu" class="language-chooser-button">🇭🇺</button>
+        <div style="display: none;" id="user" class="user" onclick="toggleProfilePopup()">
+            <img id="small-avatar" class="avatar small-profile-avatar" src="">
+        </div>
+        <!-- Language Changer Buttons -->
+        <div>
+            <button onclick="changeLanguage(1);" style="display: block;" id="btn_lang_en" class="language-chooser-button">🇬🇧</button>
+            <button onclick="changeLanguage(0);" id="btn_lang_hu" class="language-chooser-button">🇭🇺</button>
+        </div>
+        <!-- 'generate' button -->
+        <button class="button" onclick="generate()">Generate excuse</button>
+        <!-- generated idea text -->
+        <div class="prompt" id="content">
+            <p id="output">. . .</p>
+        </div>
     </div>
 
-    <!-- 'generate' button -->
-    <button class="button" onclick="generate()">Generate excuse</button>
-
-    <!-- generated idea text -->
-    <div class="prompt" id="content">
-        <p id="output">. . .</p>
-    </div>
 
 </body>
 
