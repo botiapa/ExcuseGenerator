@@ -45,6 +45,9 @@ function onLoad() {
             }
         })
     }
+    else {
+        document.getElementById("signInButton").style = "display:block;"
+    }
     generate();
 };
 
