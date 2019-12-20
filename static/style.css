@@ -111,6 +111,7 @@ body {
     margin-right: 16px;
     margin-top: 50px;
     padding: 8px;
+    animation: createBox .25s;
 }
 
 .small-profile-avatar {
@@ -135,8 +136,16 @@ body {
 .big-profile-avatar {
     width: 96px;
     height: 96px;
-    border-radius: 50%;
+    border-radius: 30%;
     margin-top: 10px;
+}
+@keyframes createBox {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
 }
 
 .username-input {
