@@ -29,7 +29,7 @@ html
             button.submit-button(onclick="register();")="Submit"
     else
         div#profile-popup.popup(style="display:none;padding: 20px;")
-            img.avatar.big-profile-avatar(src="https://lh5.googleusercontent.com/-J1_IZXtW81I/AAAAAAAAAAI/AAAAAAAAAAA/HHpKY8lrioE/W96-H96/photo.jpg")
+            img.avatar.big-profile-avatar(src=profile.picture)
             div(style="flex: 50%;margin-left: 10px;")
                 div(style="font-weight: bold;")= profile.username
                 div(style="color: lightgray; font-size: smaller;")= profile.email
