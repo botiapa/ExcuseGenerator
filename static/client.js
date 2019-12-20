@@ -51,7 +51,17 @@ let profilePopupVisible = false;
 function toggleProfilePopup() {
     const elem = document.getElementById("profile-popup");
     if(profilePopupVisible)
-        elem.style = "display:none;";
+    {
+        elem.animate([
+            {
+                transform: "scale(1)"
+            },
+            {
+                transform: "scale(0)"
+            }
+        ], 250);
+        setTimeout(function() { elem.style = "display:none"; }, 250);
+    }
     else
         elem.style = "display:flex;";
     profilePopupVisible = !profilePopupVisible;
