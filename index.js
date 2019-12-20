@@ -8,6 +8,9 @@ const db = require('./database');
 await db.init();
 
 const app = express()
+.set('views', './views')
+.set('view engine', 'pug')
+.set('view cache', false)
 .use(cookieParser())
 .use(express.json())
 .use(express.static('static'))

@@ -19,30 +19,6 @@ function onLoad() {
     if(hash) 
     {
         getProfile((profile) => {
-            if(profile) { //Logged in
-                PROFILE = profile;
-                const avatars = document.getElementsByClassName("avatar");
-                for (let img of avatars) {
-                    img.src = profile.picture;
-                }
-                document.getElementById("user").style = "display:block;"
-                if(!profile.username) 
-                {
-                    document.getElementById("register-popup").style = "display:block;"
-                }
-                else 
-                {
-                    
-                    document.getElementById("username").innerText = profile.username;
-                    document.getElementById("email").innerText = profile.email;
-    
-                    document.getElementById("signInButton").style = "display:none;"
-                }
-                
-            }
-            else {
-                document.getElementById("signInButton").style = "display:block;"
-            }
         })
     }
     else {
@@ -73,8 +49,6 @@ function onBodyClick()
 
 let profilePopupVisible = false;
 function toggleProfilePopup() {
-    if(!PROFILE || !PROFILE.username)
-        return;
     const elem = document.getElementById("profile-popup");
     if(profilePopupVisible)
         elem.style = "display:none;";

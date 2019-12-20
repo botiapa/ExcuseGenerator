@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const crypto = require('crypto');
+const pug = require('pug');
 
 let CLIENT_ID = null;
 let CLIENT_SECRET = null;
@@ -22,6 +23,15 @@ else if(!process.env.USE_ENV) {
 
 
 module.exports = async function(app, db) {
+    app.get("/", (req, res) => 
+    {
+        checkIfLoggedIn(req,res, function(author) 
+        {
+            var author = author || false;
+            console.log(author);
+            res.render('index', {title:"Generate Excuses", profile:author});
+        })
+    });
     app.get("/getexcuse", (req, res) => {
         sendRandomExcuse(res, "en");
     });
@@ -192,6 +202,7 @@ module.exports = async function(app, db) {
             res.sendStatus(403);
         }
     });
+
     function sendRandomExcuse(res, lang) 
     {
         db.query("SELECT * FROM excuses WHERE \"lang\"=$1 ORDER BY RANDOM() LIMIT 1", [lang], function(dberr, dbres)
@@ -208,8 +219,25 @@ module.exports = async function(app, db) {
             else 
             {
                 console.log(dberr);
-                res.sendStatus(500);
+                res.sendStatus(500);const hash = req.cookies.hash || "";
             }
         });
+    }
+    function checkIfLoggedIn(req, res, cb) 
+    {
+        if(req.cookies.hash) 
+        {
+            db.query("SELECT * FROM users WHERE \"hash\"=$1", [req.cookies.hash], function(dberr, dbres) 
+            {
+                if(!dberr && dbres.rowCount == 1) 
+                    cb(dbres.rows[0])
+                else if(!dberr) {
+                        console.error("Error when checking loggedin: duplicate hashes")
+                        cb(null);
+                }
+            })
+        }
+        else
+            cb(null);
     }
 }
