@@ -1,0 +1,45 @@
+.center {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-wrap: wrap;
+    flex-basis: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+#inp-excuse {
+    color: white;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: white solid 1px;
+    font-size: larger;
+    max-width: 50rem;
+}
+
+#inp-excuse:focus {
+    border-bottom: #4CAFFF solid 1px;
+}
+
+#lang-chooser {
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+    margin-top: 1rem;
+}
+
+#inp-excuse {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+#inp-text{
+    margin-right: 0.5rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+

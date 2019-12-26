@@ -1,0 +1,78 @@
+html
+  head
+    meta(name="viewport" content="initial-scale=1.0, user-scalable=no")
+    meta(name="google-signin-client_id" content="16217129855-25agroinon5odmkke0sj25r5eve924f0.apps.googleusercontent.com")
+
+    link(rel="icon" href="../favicon.ico" type="image/x-icon")
+    link(href="style.css" rel="stylesheet" type="text/css")
+    link(href="profile.css" rel="stylesheet" type="text/css")
+    script(src="client.js")
+
+    title=title
+  body(onload="onLoad();" onclick="onBodyClick()")
+    include header
+    .centered
+      img.large-profile-avatar(src=profile.picture)
+      if lang == "en"
+        .greeting-title Welcome back, #{profile.username} 
+      if lang == "hu"
+        .greeting-title Üdvözlünk, #{profile.username} 
+
+    .profile-view
+      if lang == "en"
+        div Logged in using:
+          .profile-data OAuth
+        div Username:
+          .profile-data #{profile.username}
+        div Email:
+          .profile-data #{profile.email}
+        div Password:
+          .profile-data Your password is not stored or managed by us.
+        div Preferred Language:
+          .profile-data #{lang}
+          .generic-button.switch-language-button(onclick="switchLanguage();") Switch
+      else if lang == "hu"
+        div Belépve a következő által:
+          .profile-data OAuth
+        div Név:
+          .profile-data #{profile.username}
+        div Ímél:
+          .profile-data #{profile.email}
+        div Jelszó:
+          .profile-data A jelszavát nem tároljuk a szervereinken.
+        div Preferált nyelv:
+          .profile-data #{lang}
+          .generic-button.switch-language-button(onclick="switchLanguage();") Csere
+
+    .excuse-container
+      if lang == "en"
+        .table-title Your excuses:
+        a.generic-button.new-excuse-button(href="/add")="Add"
+      else if lang == "hu"
+        .table-title Hozzáadott kifogásaid:
+        a.generic-button.new-excuse-button(href="/add")="Új"
+
+      if excuses
+        table.excuse-table
+          tr
+            if lang == "en"
+              th Excuse
+              th Language
+              th Verified
+              th Added On
+            else if lang == "hu"
+              th Kifogás
+              th Nyelv
+              th Elfogadva
+              th Hozzáadva Ekkor
+          each excuse in excuses
+            tr
+              td #{excuse.excuse}
+              td #{excuse.lang}
+              td #{excuse.verified ? "✓" : "❌"}
+              td #{excuse.last_edited ? excuse.last_edited.toLocaleString() : ""}
+      else
+        if lang == "en"
+          p Nothing to see here ):. Go out there and make some excuses
+        else if lang == "hu"
+          p Egyenlőre nincs itt semmi. Menj, és változtass ezen.

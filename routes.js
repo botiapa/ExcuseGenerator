@@ -21,22 +21,85 @@ else if(!process.env.USE_ENV) {
     REDIRECT_URI = "http://localhost:8080/redirect";
 }
 
-
 module.exports = async function(app, db) {
     app.get("/", (req, res) => 
     {
+        const lang = req.cookies.lang || 0;
+        const langString = lang == 0 ? "en" : "hu";
         checkIfLoggedIn(req,res, function(author) 
         {
             var author = author || false;
-            console.log(author);
-            res.render('index', {title:"Generate Excuses", profile:author});
+            getRandomExcuse(langString, function(excuse) {
+                res.render('index', {title:"Generate Excuses", profile:author, excuse:excuse, lang:langString});
+            })
         })
     });
+    app.get("/profile", (req, res) => 
+    {
+        const lang = req.cookies.lang || 0;
+        const offset = req.query.offset || 0;
+        const count = req.query.count || 10;
+        const langString = lang == 0 ? "en" : "hu";
+        checkIfLoggedIn(req, res, function(profile) 
+        {
+            var profile = profile || false;
+            if(profile)
+                getOffsetExcuses(function(excuses) {
+                    res.render('profile', {title:"Profile View", profile:profile, excuses:excuses, lang:langString});
+                }, offset, count)
+            else
+                res.redirect("/");
+        })
+    });
+    app.get("/add", (req, res) => 
+    {
+        const lang = req.cookies.lang || 0;
+        const langString = lang == 0 ? "en" : "hu";
+        checkIfLoggedIn(req, res, function(profile) {
+            if(!profile)
+                res.redirect("/");
+            else
+                res.render('add_new', {profile:profile, lang:langString});
+        })
+    })
+    app.post("/add", (req, res) => {
+        checkIfLoggedIn(req, res, function(profile) {
+            if(!profile) {
+                res.sendStatus(401);
+                return;
+            }
+            const lang = req.query.lang;
+            const excuse = req.query.excuse;
+            if(lang && (lang == "en" || lang == "hu")  && excuse && excuse.length > 6) 
+            {
+                db.query("INSERT INTO excuses (\"excuse\", \"lang\", \"added_by\", \"verified\") VALUES($1,$2,$3,$4)", [excuse, lang, profile.ID, profile.admin], function(dberr, dbres) {
+                    if(!dberr)
+                        res.sendStatus(200);
+                    else
+                        res.sendStatus(500);
+                })
+            }
+            else 
+                res.sendStatus(400)
+        })
+    })
     app.get("/getexcuse", (req, res) => {
-        sendRandomExcuse(res, "en");
+        getRandomExcuse("en", function(excuse)
+        {
+            if(excuse != null) 
+                res.send(excuse);
+            else
+                res.sendStatus(500);
+        })
     });
     app.get("/getexcuse_hu", (req, res) => {
-        sendRandomExcuse(res, "hu");
+        getRandomExcuse("hu", function(excuse)
+        {
+            if(excuse != null) 
+                res.send(excuse);
+            else
+                res.sendStatus(500);
+        })
     });
     app.get("/change_language", (req, res) => {
         const lang = req.query.lang;
@@ -202,24 +265,43 @@ module.exports = async function(app, db) {
             res.sendStatus(403);
         }
     });
-
-    function sendRandomExcuse(res, lang) 
+    function getRandomExcuse(lang, cb) 
     {
-        db.query("SELECT * FROM excuses WHERE \"lang\"=$1 ORDER BY RANDOM() LIMIT 1", [lang], function(dberr, dbres)
+        db.query("SELECT * FROM excuses WHERE \"lang\"=$1 AND \"verified\"=true ORDER BY RANDOM() LIMIT 1", [lang], function(dberr, dbres)
         {
             if(!dberr) 
             {;
                 if(dbres.rowCount > 0) {
-                    res.send(dbres.rows[0].excuse);
+                    cb(dbres.rows[0].excuse);
                 }
                 else {
-                    res.send("Sorry but we couldn't find an excuse. You're screwed.")
+                    cb("Sorry but we couldn't find an excuse. You're screwed.")
                 }
             }
             else 
             {
                 console.log(dberr);
-                res.sendStatus(500);const hash = req.cookies.hash || "";
+                cb(null);
+            }
+        });
+    }
+    function getOffsetExcuses(cb, offset, count) 
+    {
+        db.query("SELECT * FROM excuses ORDER BY \"verified\" OFFSET $1 ROWS FETCH FIRST $2 ROWS ONLY", [offset, count], function(dberr, dbres)
+        {
+            if(!dberr) 
+            {;
+                if(dbres.rowCount > 0) {
+                    cb(dbres.rows);
+                }
+                else {
+                    cb(null)
+                }
+            }
+            else 
+            {
+                console.log(dberr);
+                cb(null);
             }
         });
     }

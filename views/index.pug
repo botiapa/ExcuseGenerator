@@ -2,50 +2,16 @@ html
   head
     meta(name="viewport" content="initial-scale=1.0, user-scalable=no")
     meta(name="google-signin-client_id" content="16217129855-25agroinon5odmkke0sj25r5eve924f0.apps.googleusercontent.com")
+
     link(rel="icon" href="../favicon.ico" type="image/x-icon")
     link(href="style.css" rel="stylesheet" type="text/css")
     script(src="client.js")
-    
-    link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js")
-    title=title
-  body(onload="onLoad();" onclick="onBodyClick()")
-    
-    if !profile
-        // Login button
-        div#signInButton.hoverable.s12.m6.offset-m3(style="")
-            a.oauth-container.darken-4.black-text(href="/oauth" style="text-transform:none;")
-                .left
-                    img(width="20px" style="margin-top:7px; margin-right:8px;" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png")
-                | Login with Google
-    else if !profile.username
-        div#user.user
-                img#small-avatar.avatar.small-profile-avatar(src=profile.picture)
-        
-        // Popup Window
-        div#register-popup.popup(style="")
-            div.popup-text="Please enter a username to complete the registration"
-            input#username_input.username-input
-            button.submit-button(onclick="register();")="Submit"
-    else
-        div#profile-popup.popup(style="display:none;padding: 20px;")
-            img.avatar.big-profile-avatar(src=profile.picture)
-            div(style="flex: 50%;margin-left: 10px;")
-                div(style="font-weight: bold;")= profile.username
-                div(style="color: lightgray; font-size: smaller;")= profile.email
-                button#logout-button.logout-button(onclick="onLogoutClick();")="Logout"
 
-        div#user.user(onclick="toggleProfilePopup()")
-                img#small-avatar.avatar.small-profile-avatar(src=profile.picture)
-    
-    // Actual Content
+    title=title
+  body(onload="onLoad()" onclick="onBodyClick()")
+    include header
+
     div
-        // Language Changer Buttons
-        div
-            button#btn_lang_en.language-chooser-button(onclick="changeLanguage(1);" style="display: block;")="🇬🇧"
-            button#btn_lang_hu.language-chooser-button(onclick="changeLanguage(0);")="🇭🇺"
-        // 'generate' button
         button.button(class="button" onclick="generate()")="Generate excuse"
-        // Generated idea text
         div#content.prompt
-            p#output ". . ."
+            p#output #{excuse}

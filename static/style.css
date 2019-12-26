@@ -1,6 +1,6 @@
 @font-face {
     font-family: opensans;
-    src: url('../Resources/OpenSans-Regular.ttf');
+    src: url('../resources/OpenSans-Regular.ttf');
 }
 
 body {
@@ -8,6 +8,12 @@ body {
     font-family: opensans;
     margin: 0;
     color: white;
+}
+
+a {
+    text-decoration: none;
+    padding: none;
+    font-size: medium;
 }
 
 .social {
@@ -71,14 +77,13 @@ body {
 
 .language-chooser-button 
 {
+    vertical-align: middle;
     background-color: transparent;
     border: none;
     font-size: x-large;
     cursor: pointer;
-    display: none;
     padding: 0;
-    margin-left: 15px;
-    margin-top: 8px;
+    margin-right: 10px;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -136,8 +141,9 @@ body {
 .big-profile-avatar {
     width: 96px;
     height: 96px;
-    border-radius: 30%;
+    border-radius: 50%;
     margin-top: 10px;
+    cursor: pointer;
 }
 @keyframes createBox {
   from {
@@ -187,35 +193,34 @@ body {
     cursor: pointer;
 }
 
-.logout-button 
+.generic-button 
 {
-    position: absolute;
-    bottom:0;
     width: fit-content;
-    height: 30px;
-    margin-bottom: 10px;
-    background-color: #4CAFFF; 
-    border: none; 
-    color:white; 
-    font-weight: 20; 
-    padding: 5px;
-    border-radius: 3px;
+    background-color: white; 
+    border: gray 1px; 
+    color:black; 
+    border-radius: 5px;
     cursor: pointer;
+    font-weight: thin;
+    margin-right: 5px;
+    text-align: center;
+    vertical-align: middle;
+    padding: .4rem;
+    font-size: medium;
+    font-weight: thin;
 }
 
-.logout-button:hover {
-    background-color: #5dc2f5;
+.generic-button:hover {
+    background-color: #f7f8f8;
 }
 
-.logout-button:active {
-    background-color: #5591ff;
+.generic-button:active {
+    background-color: lightgray;
+    box-shadow: 0 1px 2px 0 rgba(32,32,35,0.5),0 2px 6px 2px rgba(60,64,67,0.3);
+    border: black 1px;
 }
 
 #signInButton {
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin: 5px;
     transition: background-color ease-in-out 0.01s;
     background-color: white;
     letter-spacing: .5px;
@@ -232,4 +237,59 @@ body {
 
 #signInButton:hover {
     background-color: whitesmoke;
+}
+
+.admin-badge 
+{
+    background-color: #4CAFFF;
+    color: white;
+    font-weight: thin;
+    font: opensans;
+    display: inline;
+    letter-spacing: 0.1rem;
+    margin-right: .5rem;
+    border-radius: 3px;
+    padding: .2rem;
+}
+
+.button-holder 
+{
+    position:absolute;
+    bottom:10px;
+}
+
+.login-button {
+    text-align: center;
+    vertical-align: middle;
+    color: black;
+    text-decoration: none;
+}
+
+.header 
+{
+    margin: 5px;
+    letter-spacing: .5px;
+    font-size: 14px;
+    line-height: 36px;
+    height: 36px;
+    border-radius: 3px;
+    display:flex;
+}
+
+.header-login
+{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.header-title {
+    font-size: large;
+    font-weight: lighter;
+    display: inline;
+    text-decoration: none;
+    color: white;
+    vertical-align: middle;
+    text-align: center;
+    margin: 0 0.3rem;
 }

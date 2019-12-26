@@ -3,29 +3,16 @@ const lang = getCookie("lang");
 const hash = getCookie("hash");
 
 var PROFILE;
+isOverPopup = false;
+profilePopupVisible = false;
 
 // EVENTS
+
 function onLoad() {
-    if(lang) {
-        if(lang == 0) {
-            document.getElementById("btn_lang_en").style = "display:block;"
-            document.getElementById("btn_lang_hu").style = "display:none;"
-        }
-        else if(lang == 1) {
-            document.getElementById("btn_lang_en").style = "display:none;"
-            document.getElementById("btn_lang_hu").style = "display:block;"
-        }
-    }
-    if(hash) 
-    {
-        getProfile((profile) => {
-        })
-    }
-    else {
-        document.getElementById("signInButton").style = "display:block;"
-    }
-    generate();
-};
+    document.getElementById('popup').onmouseover = () => {isOverPopup = true;}
+    document.getElementById('popup').onmouseout = () => {isOverPopup = false;}
+}
+
 
 function onLogoutClick() 
 {
@@ -43,13 +30,12 @@ function onBodyClick()
 {
     var x = event.clientX, y = event.clientY,
     elementMouseIsOver = document.elementFromPoint(x, y);
-    if(profilePopupVisible == true && (elementMouseIsOver != document.getElementById("small-avatar") && elementMouseIsOver != document.getElementById('logout-button')))
+    if(profilePopupVisible == true && !isOverPopup && elementMouseIsOver != document.getElementById("small-avatar"))
         toggleProfilePopup();
 }
 
-let profilePopupVisible = false;
 function toggleProfilePopup() {
-    const elem = document.getElementById("profile-popup");
+    const elem = document.getElementById("popup");
     if(profilePopupVisible)
     {
         elem.animate([
@@ -59,8 +45,8 @@ function toggleProfilePopup() {
             {
                 transform: "scale(0)"
             }
-        ], 250);
-        setTimeout(function() { elem.style = "display:none"; }, 250);
+        ], 100);
+        setTimeout(function() { elem.style = "display:none"; }, 100);
     }
     else
         elem.style = "display:flex;";
@@ -114,8 +100,9 @@ function getProfile(cb)
     xhttp.send();
 }
 
-function changeLanguage(lang) 
+function switchLanguage()
 {
+    const lang = getCookie("lang") == 0 ? 1 : 0;
     var xhttp = new XMLHttpRequest(lang);
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -125,6 +112,23 @@ function changeLanguage(lang)
     };
     xhttp.open("GET", "/change_language?lang=" + lang, true);
     xhttp.send();
+}
+
+function addExcuse() 
+{
+    const inp = document.getElementById("inp-excuse").value;
+    const selected_lang = document.getElementById("lang-chooser").value;
+    if(inp.length > 6) {
+        var xhttp = new XMLHttpRequest(lang);
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+               // Typical action to be performed when the document is ready:
+               window.location.href = '/profile'
+            }
+        };
+        xhttp.open("POST", "/add?lang=" + selected_lang + "&excuse=" + inp, true);
+        xhttp.send();
+    }
 }
 
 function getCookie(cname) {
