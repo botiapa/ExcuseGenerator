@@ -250,6 +250,12 @@ a {
     margin-right: .5rem;
     border-radius: 3px;
     padding: .2rem;
+    cursor: pointer;
+}
+
+.admin-badge:hover
+{
+    background-color: #449ee6;
 }
 
 .button-holder 

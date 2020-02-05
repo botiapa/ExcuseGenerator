@@ -225,7 +225,7 @@ module.exports = async function(app, db) {
         const hash = req.cookies.hash || "";
         if(hash)
         {
-            db.query("UPDATE users SET \"hash\"='' WHERE \"hash\"=$1", [hash], function(dberr, dbres) 
+            db.query("UPDATE users SET \"hash\"=NULL WHERE \"hash\"=$1", [hash], function(dberr, dbres) 
             {
                 if(!dberr) 
                     res.cookie('hash', null).redirect("/");
@@ -240,30 +240,17 @@ module.exports = async function(app, db) {
         else
             res.redirect("/");
     });
-    app.get("/profile_info", (req, res) => {
-        const hash = req.cookies.hash || "";
-        if(hash != "") 
-        {
-            db.query("SELECT * FROM users WHERE \"hash\"=$1", [hash], function(dberr, dbres) {
-                if(!dberr && dbres.rowCount == 1) 
-                {
-                    const userObject = {
-                        email: dbres.rows[0].email,
-                        username: dbres.rows[0].username,
-                        picture: dbres.rows[0].picture};
-                    res.send(userObject);
-                }
-                else 
-                {
-                    console.log(dberr);
-                    res.sendStatus(500);
-                }
-            })
-        }
-        else 
-        {
-            res.sendStatus(403);
-        }
+
+    app.get("/admin", (req, res) => {
+        checkIfLoggedIn(res, res, (profile) => {
+            if(profile && profile.admin) {
+                getRandomExcuse(langString, function(excuse) {
+                    res.render('admin', {title:"Admin Panel", profile:author, excuse:excuse, lang:langString});
+                })
+            }
+            else
+                res.sendStatus(403);
+        })
     });
     function getRandomExcuse(lang, cb) 
     {

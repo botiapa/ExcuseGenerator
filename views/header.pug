@@ -1,4 +1,5 @@
-if !profile
+//- If the user isn't logged in
+if !profile 
     // Login button
     .header
         if lang == "en"
@@ -19,7 +20,8 @@ if !profile
                         img(width="20px" height="20px" style="margin-top:7px; margin-right:8px;" alt="Google belépés" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png")
                         div(style="display:inline; margin-bottom:7px; margin-right:8px;") Belépés Google-el
 
-else if !profile.username
+//- If the user is logged in, but a hasn't been assigned yet
+else if !profile.username 
     .header
         if lang == "en"
             a.header-title(href="/")="Excuse Generator"
@@ -37,7 +39,9 @@ else if !profile.username
             div.popup-text="Please enter a username to complete the registration"
             input#username_input.username-input
             button.submit-button(onclick="register();")="Submit"
-else
+
+//- If the user is fully logged in
+else 
     .header
         if lang == "en"
             a.header-title(href="/")="Excuse Generator"
@@ -49,7 +53,7 @@ else
             div(style="flex: 50%;margin-left: 10px;")
                 div
                     if profile.admin
-                        .admin-badge="ADMIN"
+                        a(href="admin").admin-badge="ADMIN"
                     div(style="font-weight: bold; display:inline")= profile.username
                 div(style="color: lightgray; font-size: smaller;")= profile.email
 
