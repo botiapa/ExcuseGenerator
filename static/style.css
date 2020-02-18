@@ -116,6 +116,7 @@ a {
     margin-right: 16px;
     margin-top: 50px;
     padding: 8px;
+    border-radius: 8px;
     animation: createBox .25s;
 }
 
