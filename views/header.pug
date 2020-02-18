@@ -59,14 +59,14 @@ else
 
                 .button-holder()
                     if lang == "en"
-                        a.generic-button(href="/profile")="Profile"
+                        button.generic-button(onclick="location.href='/profile'")="Profile"
                     else if lang == "hu"
-                        a.generic-button(href="/profile")="Profil"
+                        button.generic-button(onclick="location.href='/profile'")="Profil"
 
                     if lang == "en"
-                        button#logout-button.generic-button(onclick="onLogoutClick();")="Logout"
+                        button.generic-button(onclick="onLogoutClick();")="Logout"
                     else if lang == "hu"
-                        button#logout-button.generic-button(onclick="onLogoutClick();")="Kilépés"
+                        button.generic-button(onclick="onLogoutClick();")="Kilépés"
 
         div#user.user(onclick="toggleProfilePopup()")
                 img#small-avatar.avatar.small-profile-avatar(src=profile.picture)
