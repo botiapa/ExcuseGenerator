@@ -1,0 +1,31 @@
+if excuses
+    table.excuse-table
+        tr
+        if lang == "en"
+            th.hidden ID
+            th Excuse
+            th Language
+            th Verified
+            th Added On
+        else if lang == "hu"
+            th Kifogás
+            th Nyelv
+            th Elfogadva
+            th Hozzáadva Ekkor
+        each excuse in excuses
+            tr
+                td.hidden #{excuse.ID}
+                td #{excuse.excuse}
+                td #{excuse.lang}
+                td #{excuse.verified ? "✓" : "❌"}
+                td #{excuse.last_edited ? excuse.last_edited.toLocaleString() : ""}
+                if profile.admin
+                    td 
+                        button#verify-button(onclick="onVerifyClick(this);") #{!excuse.verified ? "Activate" : "Deactivate"}
+                    td 
+                        button#delete-button(onclick="onDeleteClick(this);") 🗑
+else
+        if lang == "en"
+            p Nothing to see here ):. Go out there and make some excuses
+        else if lang == "hu"
+            p Egyenlőre nincs itt semmi. Menj, és változtass ezen.

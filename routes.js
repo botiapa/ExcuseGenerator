@@ -51,6 +51,22 @@ module.exports = async function(app, db) {
                 res.redirect("/");
         })
     });
+    app.get("/admin", (req, res) => 
+    {
+        const lang = req.cookies.lang || 0;
+        const langString = lang == 0 ? "en" : "hu";
+        const offset = req.query.offset || 0;
+        const count = req.query.count || 10;
+        checkIfLoggedIn(req, res, (profile) => {
+            if(profile && profile.admin) {
+                getOffsetExcuses(function(excuses) {
+                    res.render('admin', {title:"Admin Panel", profile:profile, excuses:excuses, lang:langString});
+                }, offset, count)
+            }
+            else
+                res.sendStatus(403);
+        })
+    });
     app.get("/add", (req, res) => 
     {
         const lang = req.cookies.lang || 0;
@@ -81,6 +97,61 @@ module.exports = async function(app, db) {
             }
             else 
                 res.sendStatus(400)
+        })
+    })
+    app.post("/verify", (req, res) => {
+        checkIfLoggedIn(req, res, function(profile) {
+            const ID = req.query.ID;
+            const currentStatus = (req.query.verified === 'true');
+            if(!profile) { // If the user is not authorized
+                res.sendStatus(401);
+                return;
+            }
+            if(!profile.admin) // If the user is not an admin
+            {
+                res.sendStatus(403);
+                return;
+            }
+            if(currentStatus == null || !ID) // If one of the parameters was not satisfied
+            {
+                res.sendStatus(400);
+                return;
+            }
+            db.query("UPDATE excuses SET \"verified\"=$1 WHERE \"ID\"=$2", [!currentStatus, ID], function(dber, dbres){
+                if(!dber) {
+                    res.sendStatus(200);
+                }
+                else {
+                    res.sendStatus(500);
+                }
+            })
+        })
+    })
+    app.post("/delete", (req, res) => {
+        checkIfLoggedIn(req, res, function(profile) {
+            const ID = req.query.ID;
+            if(!profile) { // If the user is not authorized
+                res.sendStatus(401);
+                return;
+            }
+            if(!profile.admin) // If the user is not an admin
+            {
+                res.sendStatus(403);
+                return;
+            }
+            if(!ID) // If the parameter was not satisfied
+            {
+                res.sendStatus(400);
+                return;
+            }
+            db.query("DELETE FROM excuses WHERE \"ID\"=$1", [ID], function(dber, dbres){
+                if(!dber) {
+                    res.sendStatus(200);
+                }
+                else {
+                    res.sendStatus(500);
+                }
+            })
         })
     })
     app.get("/getexcuse", (req, res) => {
@@ -240,18 +311,6 @@ module.exports = async function(app, db) {
         else
             res.redirect("/");
     });
-
-    app.get("/admin", (req, res) => {
-        checkIfLoggedIn(res, res, (profile) => {
-            if(profile && profile.admin) {
-                getRandomExcuse(langString, function(excuse) {
-                    res.render('admin', {title:"Admin Panel", profile:author, excuse:excuse, lang:langString});
-                })
-            }
-            else
-                res.sendStatus(403);
-        })
-    });
     function getRandomExcuse(lang, cb) 
     {
         db.query("SELECT * FROM excuses WHERE \"lang\"=$1 AND \"verified\"=true ORDER BY RANDOM() LIMIT 1", [lang], function(dberr, dbres)
@@ -294,7 +353,8 @@ module.exports = async function(app, db) {
     }
     function checkIfLoggedIn(req, res, cb) 
     {
-        if(req.cookies.hash) 
+        console.log(req.cookies)
+        if(req.cookies && req.cookies.hash) 
         {
             db.query("SELECT * FROM users WHERE \"hash\"=$1", [req.cookies.hash], function(dberr, dbres) 
             {

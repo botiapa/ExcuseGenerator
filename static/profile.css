@@ -65,3 +65,23 @@ th, td {
     padding: .1rem;
     text-align: left;
 }
+
+#verify-button {
+    border: 5px;
+    border-radius: 2px;
+    width: 85px;
+}
+
+#verify-button:hover {
+    background-color: aliceblue;
+}
+
+#delete-button {
+    border: 5px;
+    border-radius: 2px;
+    width: 30px;
+}
+
+#delete-button:hover {
+    background-color: aliceblue;
+}
