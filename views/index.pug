@@ -11,7 +11,12 @@ html
 	body(onload="onLoad()" onclick="onBodyClick()")
 		include header
 
-		div
+		.main
 			button.button(class="button" onclick="generate()")="Generate excuse"
-			div#content.prompt
+			div#content.prompt.social
 				p#output #{excuse}
+		.footer
+			|Icons made by 
+			a(href="https://www.flaticon.com/authors/freepik" title="Freepik") Freepik 
+			|from 
+			a(href="https://www.flaticon.com/" title="Flaticon") www.flaticon.com

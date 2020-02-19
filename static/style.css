@@ -58,13 +58,6 @@ a {
     width: 50%;
     bottom: 10%;
     left: 25%;
-    /* Disable text selection: https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    touch-action: manipulation;
 }
 
 .button:hover {
@@ -75,25 +68,61 @@ a {
     background-color: #5591ff;
 }
 
-.language-chooser-button 
+.language-chooser-button-hu 
 {
     vertical-align: middle;
+    background-image: url("resources/hungary.svg");
+    background-repeat: no-repeat;
     background-color: transparent;
-    border: none;
-    font-size: x-large;
+    background-size: 25px;
     cursor: pointer;
     padding: 0;
+    border: none;
     margin-right: 10px;
+    width: 25px;
+    height: 25px;
+
+    /* Disable selection */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
     touch-action: manipulation;
+
     transition: all ease-in-out 0.01s;
 }
 
-.language-chooser-button:hover 
+.language-chooser-button-gb
+{
+    vertical-align: middle;
+    background-image: url("resources/united-kingdom.svg");
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-size: 25px;
+    cursor: pointer;
+    padding: 0;
+    border: none;
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+
+    /* Disable selection */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+
+    transition: all ease-in-out 0.01s;
+}
+
+.language-chooser-button-hu:hover 
+{
+    transform: scale(1.05);
+}
+.language-chooser-button-gb:hover 
 {
     transform: scale(1.05);
 }
@@ -303,4 +332,13 @@ a {
 
 .hidden {
     display: none;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    height: 20px;
 }
