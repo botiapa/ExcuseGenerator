@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const db = require('./database');
 await db.init();
 
+
 const app = express()
 .set('views', './views')
 .set('view engine', 'pug')
