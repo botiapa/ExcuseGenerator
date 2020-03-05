@@ -43,10 +43,11 @@ module.exports = async function(app, db) {
         checkIfLoggedIn(req, res, function(profile) 
         {
             var profile = profile || false;
+            
             if(profile)
-                getOffsetExcuses(function(excuses) {
+                getOffsetExcusesOwn(function(excuses) {
                     res.render('profile', {title:"Profile View", profile:profile, excuses:excuses, lang:langString});
-                }, offset, count)
+                }, offset, count, profile.ID)
             else
                 res.redirect("/");
         })
@@ -55,13 +56,17 @@ module.exports = async function(app, db) {
     {
         const lang = req.cookies.lang || 0;
         const langString = lang == 0 ? "en" : "hu";
-        const offset = req.query.offset || 0;
-        const count = req.query.count || 10;
+        const excusesOffset = req.query.excusesOffset || 0;
+        const excusesCount = req.query.excusesCount || 10;
+        const usersOffset = req.query.usersOffset || 0;
+        const usersCount = req.query.usersCount || 10;
         checkIfLoggedIn(req, res, (profile) => {
             if(profile && profile.admin) {
                 getOffsetExcuses(function(excuses) {
-                    res.render('admin', {title:"Admin Panel", profile:profile, excuses:excuses, lang:langString});
-                }, offset, count)
+                    getOffsetProfiles(function(users) {
+                        res.render('admin', {title:"Admin Panel", profile:profile, users:users, excuses:excuses, lang:langString});
+                    }, usersOffset, usersCount)
+                }, excusesOffset, excusesCount)
             }
             else
                 res.sendStatus(403);
@@ -350,6 +355,45 @@ module.exports = async function(app, db) {
                 cb(null);
             }
         });
+    }
+    function getOffsetExcusesOwn(cb, offset, count, owner) 
+    {
+        db.query("SELECT * FROM excuses WHERE \"added_by\"=$1 ORDER BY \"verified\" OFFSET $2 ROWS FETCH FIRST $3 ROWS ONLY", [owner, offset, count], function(dberr, dbres)
+        {
+            if(!dberr) 
+            {
+                if(dbres.rowCount > 0) {
+                    cb(dbres.rows);
+                }
+                else {
+                    cb(null);
+                }
+            }
+            else 
+            {
+                console.log(dberr);
+                cb(null);
+            }
+        });
+    }
+    function getOffsetProfiles(cb, offset, count) {
+        db.query("SELECT * FROM users ORDER BY \"ID\" OFFSET $1 ROWS FETCH FIRST $2 ROWS ONLY", [offset, count], function(dberr, dbres) {
+            if(!dberr) 
+            {
+                if(dbres.rowCount > 0) 
+                {
+                    cb(dbres.rows);
+                }
+                else {
+                    cb(null);
+                }
+            }
+            else 
+            {
+                console.log(dberr);
+                cb(null);
+            }
+        })
     }
     function checkIfLoggedIn(req, res, cb) 
     {
