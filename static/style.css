@@ -342,3 +342,8 @@ a {
     text-align: center;
     height: 20px;
 }
+
+.excuse-table {
+    line-height: 30px;
+    width: 100%;
+}
