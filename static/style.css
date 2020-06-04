@@ -346,4 +346,7 @@ a {
 .excuse-table {
     line-height: 30px;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
 }
