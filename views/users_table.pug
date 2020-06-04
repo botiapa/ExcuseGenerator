@@ -1,0 +1,19 @@
+if users
+    table.excuse-table
+        tr
+        if lang == "en"
+            th ID
+            th Email
+        else if lang == "hu"
+            th ID
+            th Email
+        each user in users
+            tr
+                td #{user.ID}
+                td #{user.email}
+                
+else
+        if lang == "en"
+            p Nothing to see here ):. Go out there and register.
+        else if lang == "hu"
+            p Egyenlőre nincs itt semmi. Menj, és regisztrálj.

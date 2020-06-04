@@ -1,20 +1,20 @@
 //- If the user isn't logged in
 if !profile 
     // Login button
-    .header
+    .header.social
         if lang == "en"
             a.header-title(href="/")="Excuse Generator"
         else if lang == "hu"
             a.header-title(href="/")="Kifogás Generátor"
         .header-login
             if lang == "en"
-                button.language-chooser-button(onclick="switchLanguage();")="🇬🇧"
+                button.language-chooser-button-gb(onclick="switchLanguage();")
                 div#signInButton.hoverable.s12.m6.offset-m3()
                     a.login-button(href="/oauth" style="text-transform:none;display:flex;")
                         img(width="20px" height="20px" style="margin-top:7px; margin-right:8px;" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png")
                         div(style="display:inline; margin-bottom:7px; margin-right:8px;") Login with Google
             else if lang == "hu"
-                button.language-chooser-button(onclick="switchLanguage();")="🇭🇺"
+                button.language-chooser-button-hu(onclick="switchLanguage();")
                 div#signInButton.hoverable.s12.m6.offset-m3()
                     a.login-button(href="/oauth" style="text-transform:none;display:flex;")
                         img(width="20px" height="20px" style="margin-top:7px; margin-right:8px;" alt="Google belépés" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png")
@@ -22,17 +22,17 @@ if !profile
 
 //- If the user is logged in, but a hasn't been assigned yet
 else if !profile.username 
-    .header
+    .header.social
         if lang == "en"
             a.header-title(href="/")="Excuse Generator"
         else if lang == "hu"
             a.header-title(href="/")="Kifogás Generátor"
         if lang == "en"
-            button.language-chooser-button(onclick="switchLanguage();")="🇬🇧"
+            button.language-chooser-button-gb(onclick="switchLanguage();")
         else if lang == "hu"
-            button.language-chooser-button(onclick="switchLanguage();")="🇭🇺"
+            button.language-chooser-button-hu(onclick="switchLanguage();")
         div#user.user
-                img#small-avatar.avatar.small-profile-avatar(src=profile.picture)
+            img#small-avatar.avatar.small-profile-avatar(src=profile.picture)
 
         // Popup Window
         div#popup.popup
@@ -42,7 +42,7 @@ else if !profile.username
 
 //- If the user is fully logged in
 else 
-    .header
+    .header.social
         if lang == "en"
             a.header-title(href="/")="Excuse Generator"
         else if lang == "hu"
@@ -59,14 +59,14 @@ else
 
                 .button-holder()
                     if lang == "en"
-                        a.generic-button(href="/profile")="Profile"
+                        button.generic-button(onclick="location.href='/profile'")="Profile"
+                        button.generic-button(onclick="onLogoutClick();")="Logout"
+                        button.language-chooser-button-gb(onclick="switchLanguage();")
+                        
                     else if lang == "hu"
-                        a.generic-button(href="/profile")="Profil"
-
-                    if lang == "en"
-                        button#logout-button.generic-button(onclick="onLogoutClick();")="Logout"
-                    else if lang == "hu"
-                        button#logout-button.generic-button(onclick="onLogoutClick();")="Kilépés"
+                        button.generic-button(onclick="location.href='/profile'")="Profil"
+                        button.generic-button(onclick="onLogoutClick();")="Kilépés"
+                        button.language-chooser-button-hu(onclick="switchLanguage();")
 
         div#user.user(onclick="toggleProfilePopup()")
                 img#small-avatar.avatar.small-profile-avatar(src=profile.picture)

@@ -1,17 +1,22 @@
 html
-  head
-    meta(name="viewport" content="initial-scale=1.0, user-scalable=no")
-    meta(name="google-signin-client_id" content="16217129855-25agroinon5odmkke0sj25r5eve924f0.apps.googleusercontent.com")
+	head
+		meta(name="viewport" content="initial-scale=1.0, user-scalable=no")
+		meta(name="google-signin-client_id" content="16217129855-25agroinon5odmkke0sj25r5eve924f0.apps.googleusercontent.com")
 
-    link(rel="icon" href="../favicon.ico" type="image/x-icon")
-    link(href="style.css" rel="stylesheet" type="text/css")
-    script(src="client.js")
+		link(rel="icon" href="../favicon.ico" type="image/x-icon")
+		link(href="style.css" rel="stylesheet" type="text/css")
+		script(src="client.js")
 
-    title=title
-  body(onload="onLoad()" onclick="onBodyClick()")
-    include header
+		title=title
+	body(onload="onLoad()" onclick="onBodyClick()")
+		include header
 
-    div
-        button.button(class="button" onclick="generate()")="Generate excuse"
-        div#content.prompt
-            p#output #{excuse}
+		.main
+			button.button(class="button" onclick="generate()")="Generate excuse"
+			div#content.prompt.social
+				p#output #{excuse}
+		.footer(style="display:none;")
+			|Icons made by 
+			a(href="https://www.flaticon.com/authors/freepik" title="Freepik") Freepik 
+			|from 
+			a(href="https://www.flaticon.com/" title="Flaticon") www.flaticon.com
