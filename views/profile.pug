@@ -25,7 +25,9 @@ html
           .profile-data OAuth
         div Username:
           .profile-data #{profile.username}
-        div Email:
+        #show_email Email:
+          .generic-button.switch-language-button(onclick="showEmail();") Show email
+        #email_div Email:
           .profile-data #{profile.email}
         div Password:
           .profile-data Your password is not stored or managed by us.
@@ -37,7 +39,9 @@ html
           .profile-data OAuth
         div Név:
           .profile-data #{profile.username}
-        div Ímél:
+        #show_email Ímél:
+          .generic-button.switch-language-button(onclick="showEmail();") Ímél megmutatása
+        #email_div Ímél:
           .profile-data #{profile.email}
         div Jelszó:
           .profile-data A jelszavát semmilyen formában nem tároljuk a szervereinken.

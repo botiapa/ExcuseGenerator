@@ -152,3 +152,10 @@ function getCookie(cname) {
   }
   return "";
 }
+
+function showEmail() {
+    const show_email = document.getElementById("show_email");
+    const email_div = document.getElementById("email_div");
+    show_email.style.display = "none";
+    email_div.style.display = "block";
+}
