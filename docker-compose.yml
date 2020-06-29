@@ -1,0 +1,23 @@
+version: "3"
+services:
+  postgres:
+    container_name: "excusegen_db"
+    build: 
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  app:
+    container_name: "excusegen_app"
+    links:
+      - postgres
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"

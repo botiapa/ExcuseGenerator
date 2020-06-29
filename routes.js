@@ -342,7 +342,6 @@ module.exports = async function(app, db) {
     }
 
     function checkIfLoggedIn(req, res, cb) {
-        console.log(req.cookies)
         if (req.cookies && req.cookies.hash) {
             db.query("SELECT * FROM users WHERE \"hash\"=$1", [req.cookies.hash], function(dberr, dbres) {
                 if (!dberr && dbres.rowCount == 1)
@@ -352,7 +351,9 @@ module.exports = async function(app, db) {
                     cb(null);
                 }
             })
-        } else
+        } else {
             cb(null);
+        }
     }
+
 }
