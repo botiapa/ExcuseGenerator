@@ -12,7 +12,11 @@ html
 		include header
 
 		.main
-			button.button(class="button" onclick="generate()")="Generate excuse"
+			if lang == "en"
+				button.button(class="button" onclick="generate()")="Generate excuse" 
+			if lang == "hu"
+				button.button(class="button" onclick="generate()")="Kifogás generálása" 
+
 			div#content.prompt.social
 				p#output #{excuse}
 		.footer(style="display:none;")
