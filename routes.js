@@ -27,7 +27,7 @@ module.exports = async function(app, db) {
         const lang = req.cookies.lang || 0;
         const langString = lang == 0 ? "en" : "hu";
         checkIfLoggedIn(req, res, function(author) {
-            var author = author || false;
+            author = author || false;
             getRandomExcuse(langString, function(excuse) {
                 res.render("index", {
                     title: "Generate Excuses",
