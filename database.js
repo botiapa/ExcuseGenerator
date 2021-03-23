@@ -52,7 +52,7 @@ module.exports = {
                 connectionString: process.env.DATABASE_URL,
                 idleTimeoutMillis: 15000, // close idle clients after 15 second
                 connectionTimeoutMillis: 3000, // return an error after 3 second if connection could not be established
-                max: 15 // Maximum number of clients to create. Only 20 clients are allowed on heroku, so to avoid crashes I set it a lower value just to be safe.
+                max: 15, // Maximum number of clients to create. Only 20 clients are allowed on heroku, so to avoid crashes I set it a lower value just to be safe.,
             });
             console.log(`Database connected on with ${process.env.DATABASE_URL}`);
         }
